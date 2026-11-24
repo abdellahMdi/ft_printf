@@ -57,13 +57,37 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-int ft_print_int(int num)
+char	*ft_itoau(unsigned int n)
+{
+	char	*str;
+	unsigned long	nb;
+	int		nlen;
+
+	nb = n;
+	nlen = nbrcharu(nb);
+	str = malloc((nlen + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	n = 0;
+	str[nlen--] = '\0';
+	while (n <= nlen)
+	{
+		str[nlen--] = '0' + (nb % 10);
+		nb = nb / 10 ;
+	}
+	return (str);
+}
+
+int ft_print_int(int num, unsigned int num1, int is_signed)
 {
     int i;
     int len;
     char *str;
     
-    str = ft_itoa(num);
+    if (is_signed)
+        str = ft_itoa(num);
+    else
+        str = ft_itoau(num1);
 	if (!str)
 		return (-1);
     len = ft_strlen(str);
