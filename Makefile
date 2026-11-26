@@ -1,5 +1,5 @@
 CC = cc
-SRC = 
+SRC = ft_printf.c ft_hellper.c ft_printf_char.c ft_printf_num.c ft_printf_hex.c ft_printf_voidp.c
 NAME = libftprintf.a
 HEADER = ft_printf.h
 CFLAGS = -Wall -Wextra -Werror
@@ -15,10 +15,10 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ)
+	rm -f $(OBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
 

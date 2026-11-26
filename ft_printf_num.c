@@ -6,10 +6,11 @@
 /*   By: abdemahm <abdemahm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/11 15:59:11 by abdemahm          #+#    #+#             */
-/*   Updated: 2026/11/12 21:51:18 by abdemahm         ###   ########.fr       */
+/*   Updated: 2026/11/26 01:15:35 by abdemahm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
 
 static int	nbrchar(long k)
 {
@@ -30,7 +31,7 @@ static int	nbrcharu(unsigned long k)
 	return (1);
 }
 
-char	*ft_itoa(int n)
+static char	*ft_itoa(int n)
 {
 	char	*str;
 	long	nb;
@@ -57,11 +58,11 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-char	*ft_itoau(unsigned int n)
+static char	*ft_itoau(unsigned int n)
 {
-	char	*str;
 	unsigned long	nb;
-	int		nlen;
+	char			*str;
+	int				nlen;
 
 	nb = n;
 	nlen = nbrcharu(nb);
@@ -69,8 +70,9 @@ char	*ft_itoau(unsigned int n)
 	if (!str)
 		return (NULL);
 	n = 0;
-	str[nlen--] = '\0';
-	while (n <= nlen)
+	str[nlen] = '\0';
+	nlen--;
+	while ((int)n <= nlen)
 	{
 		str[nlen--] = '0' + (nb % 10);
 		nb = nb / 10 ;
@@ -78,22 +80,43 @@ char	*ft_itoau(unsigned int n)
 	return (str);
 }
 
-int ft_print_int(int num, unsigned int num1, int is_signed)
+static int print_flags(int num, char flag)
 {
-    int i;
-    int len;
-    char *str;
-    
-    if (is_signed)
-        str = ft_itoa(num);
-    else
-        str = ft_itoau(num1);
+	char to_print;
+
+	if (num >= 0)
+	{
+		if (flag == '+')
+			to_print = '+';
+		else
+			to_print = ' ';
+	}
+	else
+		to_print = '-';
+	return (write(1, &to_print, 1));
+}
+
+int	ft_print_int(int num, unsigned int num1, int is_signed, char flag)
+{
+	int		i;
+	int		len;
+	char	*str;
+
+	i = 0;
+	str = NULL;
+	if (flag == '+' || flag == ' ')
+		i = print_flags(num, flag);
+	if (is_signed == 1 && i != -1)
+		str = ft_itoa(num);
+	else if (i != -1)
+		str = ft_itoau(num1);
 	if (!str)
 		return (-1);
-    len = ft_strlen(str);
-    i = write (1, str, len);
-    free(str);
-    if (i == -1)
-        return (-1);
-    return (len);
+	len = ft_strlen(str);
+	len = write (1, str, len);
+	free(str);
+	if (len == -1)
+		return (-1);
+	len += i;
+	return (len);
 }
