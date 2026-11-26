@@ -92,7 +92,7 @@ static int print_flags(int num, char flag)
 			to_print = ' ';
 	}
 	else
-		to_print = '-';
+		return (0);
 	return (write(1, &to_print, 1));
 }
 
@@ -104,7 +104,7 @@ int	ft_print_int(int num, unsigned int num1, int is_signed, char flag)
 
 	i = 0;
 	str = NULL;
-	if (flag == '+' || flag == ' ')
+	if ((flag == '+' || flag == ' ') && is_signed == 1)
 		i = print_flags(num, flag);
 	if (is_signed == 1 && i != -1)
 		str = ft_itoa(num);

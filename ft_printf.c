@@ -36,9 +36,10 @@ int	ft_print_inputs(const char *str, va_list args)
 			else if(str[i + 1] && str[i + 2] && check_flags(str[i + 1]) && check_type(str[i + 2]))
 			{
 				check = ft_handler(str[i + 2], str[i + 1], args);
+				i += 2;
 			}
 			else
-				check = ft_printf_char(str[i]);
+				check = -1;
 		}
 		else
 			check = ft_printf_char(str[i]);
